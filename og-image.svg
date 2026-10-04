@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#f6f0df"/>
+  <path d="M0 450c170-45 280 5 440-20s275 22 410-12 238-31 350 0v212H0z" fill="#72a469"/>
+  <circle cx="1020" cy="120" r="60" fill="#f4c958"/>
+  <path d="m630 207 215-75 236 75v24H630z" fill="#b94c36" stroke="#173e32" stroke-width="8"/>
+  <path d="M654 231h399v192H654z" fill="#f2e2bc" stroke="#173e32" stroke-width="8"/>
+  <path d="M678 257h56v68h-56zm89 0h56v68h-56zm89 0h56v68h-56zm89 0h56v68h-56z" fill="#a7c9be" stroke="#25483a" stroke-width="5"/>
+  <path d="M814 356h75v67h-75z" fill="#7d4438" stroke="#173e32" stroke-width="5"/>
+  <text x="70" y="235" fill="#174b3b" font-family="Arial Black,Arial,sans-serif" font-size="136" font-weight="900" letter-spacing="-8">NA SCHOOL!</text>
+  <text x="78" y="321" fill="#b74b35" font-family="Georgia,serif" font-size="39">Secondary school was a game.</text>
+  <text x="78" y="375" fill="#174b3b" font-family="Georgia,serif" font-size="39" font-weight="bold">We just made it playable.</text>
+  <rect x="79" y="427" width="280" height="58" fill="#f4c958"/>
+  <text x="100" y="465" fill="#10382e" font-family="Arial Black,Arial,sans-serif" font-size="22" letter-spacing="2">MAKE I JOIN →</text>
+  <rect x="0" y="0" width="1200" height="20" fill="#b74b35"/>
+  <text x="74" y="574" fill="#174b3b" font-family="Arial,sans-serif" font-size="16" font-weight="bold" letter-spacing="3">YOUR SCHOOL. YOUR STORY. 🇳🇬</text>
+</svg>
