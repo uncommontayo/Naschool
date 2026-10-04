@@ -631,3 +631,220 @@ button:focus-visible, a:focus-visible, input:focus-visible, summary:focus-visibl
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* The pre-launch page is a single, viewport-sized screen. Older landing-page
+   sections stay in the document so they can be brought back for launch. */
+html {
+  height: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+  scroll-behavior: auto;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  width: 100dvw;
+  height: 100dvh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+#main {
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#main > section:not(.join) { display: none; }
+
+.site-header { position: relative; width: 100%; flex: 0 0 auto; }
+.nav { width: 100%; max-width: none; height: 70px; padding-inline: clamp(20px, 5vw, 88px); }
+.nav__links { position: static; display: flex; padding: 0; background: transparent; border: 0; box-shadow: none; }
+.nav__links .nav__join { padding: 12px 17px; }
+.nav__join span { margin-left: 7px; }
+
+.join {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 3dvh, 32px) 0;
+  isolation: isolate;
+}
+
+.join::before {
+  position: absolute;
+  z-index: -1;
+  top: -28%;
+  right: -9%;
+  width: min(48vw, 620px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(23,75,59,.1);
+  border-radius: 50%;
+  box-shadow: 0 0 0 24px rgba(23,75,59,.025), 0 0 0 50px rgba(23,75,59,.022);
+  content: '';
+  pointer-events: none;
+}
+
+.join__grid {
+  width: min(1600px, calc(100% - 64px));
+  max-height: 100%;
+  grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr);
+  gap: clamp(30px, 5vw, 72px);
+  align-items: center;
+}
+
+.join__copy { min-width: 0; }
+.join .eyebrow { margin-bottom: 13px; font-size: 9px; }
+.join h2 { font-size: clamp(58px, 6.3vw, 82px); line-height: .86; }
+.join__copy > p:not(.eyebrow) { max-width: 385px; margin: 16px 0 0; font-size: clamp(15px, 1.3vw, 18px); line-height: 1.48; }
+.join__ticket { gap: 5px; margin-top: 20px; padding: 13px 34px 13px 15px; font-size: 13px; }
+.join__stamp { bottom: 7%; left: 37%; }
+
+.join__form-wrap {
+  width: 100%;
+  min-width: 0;
+  padding: 0 22px 17px;
+  transform: rotate(.2deg);
+}
+
+.form-tab { margin: 0 -22px 16px; padding: 9px 17px; font-size: 8px; }
+.form-head { margin-bottom: 13px; }
+.form-head h3 { font-size: 31px; }
+.form-head p { margin-top: 5px; }
+.field { gap: 4px; margin-bottom: 9px; }
+.field--gender { margin-bottom: 10px; }
+.field--gender legend { margin-bottom: 6px; }
+.radio-row { gap: 6px; }
+.radio-row label span { min-height: 32px; padding-inline: 10px; font-size: 9px; }
+.form-privacy { margin: 0 0 9px; font-size: 10px; line-height: 1.35; }
+.form-submit { min-height: 46px; }
+.form-status:empty { display: none; }
+
+.signup-success { padding: 10px 0 0; }
+.success-stamp { width: 42px; height: 42px; margin-bottom: 10px; }
+.signup-success .eyebrow { margin-bottom: 8px; }
+.signup-success h3 { font-size: clamp(34px, 3vw, 40px); }
+.signup-success h3 span { font-size: 20px; }
+.signup-success > p:not(.eyebrow):not(.share-status) { margin: 10px 0 12px; font-size: 13px; }
+.student-number { margin-bottom: 12px; padding: 7px 11px; }
+.student-number strong { font-size: 23px; }
+.success-actions { gap: 16px; }
+.success-actions .button { min-height: 40px; padding-inline: 14px; font-size: 11px; }
+.share-status { min-height: 0; margin-top: 6px; }
+
+.footer { width: 100%; flex: 0 0 auto; }
+.footer__bottom {
+  min-height: 31px;
+  padding-block: 4px;
+  font-size: 7px;
+}
+.footer__bottom span:nth-child(2) { display: inline; }
+
+@media (max-width: 760px) {
+  .shell { width: min(calc(100% - 32px), 560px); }
+  .nav { height: 58px; }
+  .brand { gap: 8px; }
+  .brand__stamp { width: 31px; height: 32px; font-size: 21px; }
+  .brand__name { font-size: 15px; }
+  .brand__name small { padding-top: 4px; font-size: 7px; }
+  .nav__links { position: static; display: flex; width: auto; padding: 0; box-shadow: none; }
+  .nav__links .nav__join { margin: 0; padding: 10px 11px; font-size: 9px; }
+
+  .join { padding-block: 8px; }
+  .join__grid {
+    width: min(calc(100% - 32px), 560px);
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(10px, 1.8dvh, 15px);
+  }
+  .join__copy { padding: 0; }
+  .join .eyebrow { margin-bottom: 7px; font-size: 8px; }
+  .join h2 { font-size: clamp(42px, 11vw, 58px); line-height: .82; }
+  .join__copy > p:not(.eyebrow) { max-width: 470px; margin-top: 8px; font-size: 13px; line-height: 1.35; }
+  .join__ticket { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-top: 11px; padding: 9px 27px 9px 11px; font-size: 10px; }
+  .join__ticket i { right: 9px; bottom: 7px; font-size: 16px; }
+  .join__stamp { display: none; }
+
+  .join__form-wrap { padding: 0 14px 12px; transform: none; }
+  .form-tab { margin: 0 -14px 11px; padding: 8px 12px; font-size: 7px; }
+  .form-head { margin-bottom: 9px; }
+  .form-head h3 { font-size: 27px; }
+  .form-head p { margin-top: 4px; font-size: 11px; }
+  .field { gap: 4px; margin-bottom: 7px; }
+  .field label, .field legend { font-size: 9px; }
+  .field legend > span { font-size: 8px; }
+  .field input:not([type="radio"]) { height: 38px; padding-inline: 9px; font-size: 11px; }
+  .field input::placeholder { font-size: 10px; }
+  .field--gender { margin-bottom: 8px; }
+  .field--gender legend { margin-bottom: 5px; }
+  .radio-row { gap: 5px; }
+  .radio-row label span { min-height: 28px; padding-inline: 8px; font-size: 8px; }
+  .form-privacy { margin-bottom: 7px; font-size: 9px; line-height: 1.3; }
+  .form-submit { min-height: 42px; }
+
+  .signup-success { padding: 7px 0 0; }
+  .success-stamp { width: 36px; height: 36px; margin-bottom: 8px; font-size: 20px; }
+  .signup-success .eyebrow { margin-bottom: 7px; }
+  .signup-success h3 { font-size: clamp(31px, 8vw, 38px); }
+  .signup-success h3 span { font-size: 18px; }
+  .signup-success > p:not(.eyebrow):not(.share-status) { margin: 8px 0 10px; font-size: 12px; }
+  .student-number { max-width: 250px; margin-bottom: 10px; padding: 6px 10px; }
+  .student-number strong { font-size: 21px; }
+  .success-actions { gap: 10px; }
+  .success-actions .button { min-height: 37px; padding-inline: 11px; font-size: 10px; }
+  .share-status { font-size: 10px; }
+
+  .footer__bottom { justify-content: center; min-height: 27px; }
+  .footer__bottom span:nth-child(2) { display: none; }
+}
+
+@media (max-width: 380px) {
+  .shell { width: calc(100% - 30px); }
+  .brand__name { font-size: 14px; }
+  .nav__links .nav__join { padding-inline: 9px; font-size: 8px; }
+  .join__grid { width: calc(100% - 30px); }
+  .join .eyebrow { margin-bottom: 5px; font-size: 7px; }
+  .join h2 { font-size: clamp(39px, 12vw, 48px); }
+  .join__copy > p:not(.eyebrow) { margin-top: 6px; font-size: 12px; line-height: 1.28; }
+  .join__ticket { gap: 3px 8px; margin-top: 8px; padding: 8px 23px 8px 9px; font-size: 9px; }
+  .radio-row { gap: 4px; }
+  .radio-row label span { padding-inline: 6px; font-size: 7px; }
+}
+
+@media (max-height: 680px) and (max-width: 760px) {
+  .nav { height: 52px; }
+  .footer { display: none; }
+  .join { padding-block: 4px; }
+  .join__grid { gap: 7px; }
+  .join .eyebrow { margin-bottom: 4px; }
+  .join h2 { font-size: clamp(37px, 10vw, 45px); }
+  .join__copy > p:not(.eyebrow) { margin-top: 5px; font-size: 11px; line-height: 1.24; }
+  .join__ticket { gap: 3px 8px; margin-top: 6px; padding-block: 6px; font-size: 8px; }
+  .join__form-wrap { padding-bottom: 8px; }
+  .form-tab { margin-bottom: 7px; padding-block: 6px; }
+  .form-head { margin-bottom: 6px; }
+  .form-head > span, .form-head p { display: none; }
+  .form-head h3 { font-size: 24px; }
+  .field { gap: 3px; margin-bottom: 5px; }
+  .field input:not([type="radio"]) { height: 34px; }
+  .field--gender { margin-bottom: 5px; }
+  .field--gender legend { margin-bottom: 3px; }
+  .radio-row label span { min-height: 25px; }
+  .form-privacy { margin-bottom: 5px; font-size: 8px; line-height: 1.2; }
+  .form-submit { min-height: 37px; }
+  .signup-success { padding-top: 2px; }
+  .success-stamp { width: 31px; height: 31px; margin-bottom: 5px; font-size: 17px; }
+  .signup-success .eyebrow { margin-bottom: 5px; }
+  .signup-success h3 { font-size: 30px; }
+  .signup-success h3 span { font-size: 16px; }
+  .signup-success > p:not(.eyebrow):not(.share-status) { margin: 6px 0 7px; font-size: 11px; }
+  .student-number { margin-bottom: 7px; padding: 5px 8px; }
+  .student-number strong { font-size: 19px; }
+  .success-actions .button { min-height: 33px; }
+}

@@ -234,7 +234,7 @@ function makePreviewStudentNumber() {
 }
 
 document.querySelector('#back-to-school')?.addEventListener('click', () => {
-  document.querySelector('#top')?.scrollIntoView({ behavior: 'smooth' });
+  document.querySelector('#join-title')?.focus({ preventScroll: true });
 });
 
 document.querySelector('#share-button')?.addEventListener('click', async () => {
