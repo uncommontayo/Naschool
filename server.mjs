@@ -4,6 +4,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const rootDirectory = path.dirname(fileURLToPath(import.meta.url));
+const publicDirectory = path.join(rootDirectory, 'public');
 const publicFiles = new Set(['index.html', 'styles.css', 'app.js', 'form-validation.js', 'supabase-signup.js', 'favicon.svg', 'og-image.svg']);
 const contentTypes = new Map([
   ['.html', 'text/html; charset=utf-8'],
@@ -85,7 +86,7 @@ async function serveStatic(request, response, directory) {
   }
 }
 
-export function createRequestHandler({ staticDirectory = rootDirectory, config = {} } = {}) {
+export function createRequestHandler({ staticDirectory = publicDirectory, config = {} } = {}) {
   return async (request, response) => {
     response.setHeader('X-Content-Type-Options', 'nosniff');
     response.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');

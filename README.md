@@ -18,6 +18,18 @@ Copy the variable names from `.env.example` into `.env.local` and set the publis
 
 The browser sends only an `INSERT` request with `Prefer: return=minimal`; it never requests signup rows.
 
+## Deploy to Cloudflare Workers
+
+The Worker serves the files in `public/` and provides `/api/config` for the signup form. The Supabase URL and publishable key are set in `wrangler.jsonc`, so they are available on deployment. Supabase publishable keys are intended for client applications; access remains governed by the database's row-level security policies.
+
+Deploy with:
+
+```sh
+npx wrangler deploy
+```
+
+Wrangler uses `public/` as the asset directory, keeping project dependencies and server-side files out of the uploaded website assets.
+
 ## Check the app
 
 ```sh

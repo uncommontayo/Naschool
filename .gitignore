@@ -5,5 +5,7 @@
 !.env.example
 node_modules/
 .venv/
+.wrangler/
+.dev.vars*
 coverage/
 .DS_Store

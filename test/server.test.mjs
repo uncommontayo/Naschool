@@ -3,8 +3,8 @@ import { readFile } from 'node:fs/promises';
 import { Readable } from 'node:stream';
 import { test } from 'node:test';
 import { createRequestHandler } from '../server.mjs';
-import { validateSignupFields } from '../form-validation.js';
-import { submitWaitlistSignup } from '../supabase-signup.js';
+import { validateSignupFields } from '../public/form-validation.js';
+import { submitWaitlistSignup } from '../public/supabase-signup.js';
 
 function response(status, payload) {
   return { ok: status >= 200 && status < 300, status, async json() { return payload; } };
