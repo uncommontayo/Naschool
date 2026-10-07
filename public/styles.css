@@ -706,6 +706,7 @@ body {
 .join__copy > p:not(.eyebrow) { max-width: 385px; margin: 16px 0 0; font-size: clamp(15px, 1.3vw, 18px); line-height: 1.48; }
 .join__ticket { gap: 5px; margin-top: 20px; padding: 13px 34px 13px 15px; font-size: 13px; }
 .join__stamp { bottom: 7%; left: 37%; }
+.join__play { display: inline-flex; margin-top: 18px; }
 
 .join__form-wrap {
   width: 100%;
@@ -770,6 +771,8 @@ body {
   .join__ticket { flex-direction: row; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-top: 11px; padding: 9px 27px 9px 11px; font-size: 10px; }
   .join__ticket i { right: 9px; bottom: 7px; font-size: 16px; }
   .join__stamp { display: none; }
+  .join__ticket { display: none; }
+  .join__play { margin-top: 10px; min-height: 38px; padding-inline: 14px; font-size: 11px; }
 
   .join__form-wrap { padding: 0 14px 12px; transform: none; }
   .form-tab { margin: 0 -14px 11px; padding: 8px 12px; font-size: 7px; }

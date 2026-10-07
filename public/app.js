@@ -191,11 +191,8 @@ form?.addEventListener('submit', async (event) => {
       },
     });
     if (result.status === 'duplicate' || result.status === 'success') {
-      if (studentNumberBox) studentNumberBox.hidden = result.status === 'duplicate';
-      if (result.status === 'success' && studentNumber) studentNumber.textContent = makePreviewStudentNumber();
-      if (result.status === 'duplicate' && successMessage) {
-        successMessage.textContent = 'Your name don already dey inside! 😂\nSchool go soon start. No come late o.';
-      }
+      if (studentNumberBox) studentNumberBox.hidden = false;
+      if (studentNumber) studentNumber.textContent = makePreviewStudentNumber();
       form.hidden = true;
       if (formStatus) formStatus.textContent = '';
       if (signupSuccess) {

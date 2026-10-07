@@ -121,7 +121,10 @@ test('runtime config exposes only public values and static serving cannot expose
   assert.deepEqual(JSON.parse(config.body), { url: 'https://ctlhtxdaewgpcqvykmhz.supabase.co', publishableKey: 'sb_publishable_example', development: true });
 
   assert.equal((await handlerRequest({}, 'GET', '/')).status, 200);
-  for (const privatePath of ['/.env', '/.env.local', '/server.mjs', '/supabase/migrations/20261004194000_create_waitlist_signups.sql']) {
+  for (const publicPath of ['/privacy.html', '/play/', '/play/game.js', '/play/fonts.css']) {
+    assert.equal((await handlerRequest({}, 'GET', publicPath)).status, 200, `${publicPath} should be served`);
+  }
+  for (const privatePath of ['/.env', '/.env.local', '/server.mjs', '/supabase/migrations/20261004194000_create_waitlist_signups.sql', '/play/../server.mjs', '/play/.hidden', '/play/fonts/../../server.mjs', '/play/x/y/z.js']) {
     assert.equal((await handlerRequest({}, 'GET', privatePath)).status, 404, `${privatePath} must not be publicly served`);
   }
 });
@@ -136,4 +139,23 @@ test('migration enables insert-only anon access, uniqueness, and no public read/
   assert.match(migration, /revoke all privileges on table public\.waitlist_signups from public, anon, authenticated/i);
   assert.match(migration, /grant insert \(first_name, last_name, gender, email, source, status\)[\s\S]+?to anon/i);
   assert.doesNotMatch(migration, /create policy[^;]+\bfor\s+(select|update|delete)\b/i);
+});
+
+test('early-access game follows the site security policy and never fakes real players', async () => {
+  const page = await readFile(new URL('../public/play/index.html', import.meta.url), 'utf8');
+  const game = await readFile(new URL('../public/play/game.js', import.meta.url), 'utf8');
+  assert.doesNotMatch(page, /<script>(?!<\/script>)/, 'no inline scripts, the CSP blocks them');
+  assert.match(page, /<script src="\/play\/game\.js"><\/script>/);
+  assert.doesNotMatch(page, /fonts\.(googleapis|gstatic)\.com/, 'fonts are self-hosted');
+  assert.doesNotMatch(game, /f-pass|pass:p/, 'no password is asked for or stored');
+  assert.doesNotMatch(game, /\(player\)|human:true|Kachi_99|TheRealSeun/, 'simulated classmates must be shown as NPCs');
+  assert.doesNotMatch(game, /new Date\('2026-10-06'\)/, 'age check uses the real date');
+});
+
+test('privacy notice is linked from the landing page and has a real contact address', async () => {
+  const landing = await readFile(new URL('../public/index.html', import.meta.url), 'utf8');
+  const privacy = await readFile(new URL('../public/privacy.html', import.meta.url), 'utf8');
+  assert.match(landing, /href="\/privacy\.html"/);
+  assert.doesNotMatch(landing, /UNITY SECONDARY|JOIN CLUBS/);
+  assert.doesNotMatch(privacy, /CONTACT_EMAIL_HERE/, 'replace CONTACT_EMAIL_HERE in public/privacy.html before deploying');
 });

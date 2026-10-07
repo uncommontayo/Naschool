@@ -5,12 +5,16 @@ import { fileURLToPath } from 'node:url';
 
 const rootDirectory = path.dirname(fileURLToPath(import.meta.url));
 const publicDirectory = path.join(rootDirectory, 'public');
-const publicFiles = new Set(['index.html', 'styles.css', 'app.js', 'form-validation.js', 'supabase-signup.js', 'favicon.svg', 'og-image.svg']);
+const publicFiles = new Set(['index.html', 'privacy.html', 'styles.css', 'app.js', 'form-validation.js', 'supabase-signup.js', 'favicon.svg', 'og-image.svg']);
+// The early-access game lives in public/play. Only these file types are served from it.
+const playExtensions = new Set(['.html', '.css', '.js', '.woff2', '.txt']);
 const contentTypes = new Map([
   ['.html', 'text/html; charset=utf-8'],
   ['.css', 'text/css; charset=utf-8'],
   ['.js', 'text/javascript; charset=utf-8'],
   ['.svg', 'image/svg+xml'],
+  ['.woff2', 'font/woff2'],
+  ['.txt', 'text/plain; charset=utf-8'],
 ]);
 
 async function loadLocalEnvironment() {
@@ -50,11 +54,16 @@ function safeStaticPath(requestUrl, directory) {
     return null;
   }
   if (pathname === '/') pathname = '/index.html';
+  if (pathname === '/play' || pathname === '/play/') pathname = '/play/index.html';
   const resolvedDirectory = path.resolve(directory);
   const filePath = path.resolve(resolvedDirectory, `.${pathname}`);
   const relativePath = path.relative(resolvedDirectory, filePath);
-  if (relativePath.includes(path.sep) || !publicFiles.has(relativePath)) return null;
-  return filePath;
+  if (relativePath.startsWith('..') || path.isAbsolute(relativePath)) return null;
+  if (publicFiles.has(relativePath)) return filePath;
+  const parts = relativePath.split(path.sep);
+  const inPlay = parts[0] === 'play' && (parts.length === 2 || (parts.length === 3 && parts[1] === 'fonts'));
+  if (inPlay && playExtensions.has(path.extname(relativePath).toLowerCase()) && !parts.some((part) => part.startsWith('.'))) return filePath;
+  return null;
 }
 
 async function serveStatic(request, response, directory) {

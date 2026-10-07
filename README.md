@@ -35,3 +35,24 @@ Wrangler uses `public/` as the asset directory, keeping project dependencies and
 ```sh
 npm test
 ```
+
+## Early access game (`/play`)
+
+`public/play/` is the single-player early access, built from the CEO's prototype by `tools/build_play.py`. It runs entirely in the browser and saves to the player's device; nothing is sent to us. The build:
+
+- moves the prototype's inline script into `play/game.js`, because the site's Content-Security-Policy blocks inline scripts;
+- self-hosts Lilita One, Figtree and JetBrains Mono under `play/fonts/` (SIL Open Font License), because the policy also blocks Google Fonts;
+- removes the password field, so nothing that looks like an account is stored;
+- marks every simulated classmate as an NPC, so nobody is shown as a real player;
+- uses today's date for the 18+ check.
+
+To rebuild after the prototype changes (needs Python 3 and `npm i @fontsource/lilita-one @fontsource/figtree @fontsource/jetbrains-mono` in a scratch folder):
+
+```sh
+python3 tools/build_play.py "path/to/Na School Prototype.html" public/play path/to/node_modules/@fontsource
+npm test
+```
+
+## Before deploying
+
+Replace `CONTACT_EMAIL_HERE` in `public/privacy.html` with the address people should write to about their data. `npm test` fails until you do.

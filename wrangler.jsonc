@@ -3,6 +3,7 @@
   "name": "naschool",
   "main": "worker.js",
   "compatibility_date": "2026-10-04",
+  "workers_dev": true,
   "vars": {
     "SUPABASE_URL": "https://ctlhtxdaewgpcqvykmhz.supabase.co",
     "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_73jtaubt4b4uHR6QuWUOfg_0qwwMLuB"
@@ -11,5 +12,15 @@
     "directory": "./public",
     "binding": "ASSETS",
     "run_worker_first": ["/api/*"]
-  }
+  },
+  "routes": [
+    {
+      "pattern": "naschool.app",
+      "custom_domain": true
+    },
+    {
+      "pattern": "www.naschool.app",
+      "custom_domain": true
+    }
+  ]
 }
