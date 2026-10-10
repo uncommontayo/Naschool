@@ -34,15 +34,14 @@ function weeklyResolution(){
   if(win===S.player.school&&S.ptsWeek>0)money(300,'Rivalry week champions');
   const topHouse=Object.entries(S.housePts).sort((a,b)=>b[1]-a[1])[0][0];if(topHouse===S.player.house)giveBadge('house');
   notify('rivalry',`RIVALRY WEEK RESULT: ${SCHOOLS[win].name} wins ${Math.max(g,b)}–${Math.min(g,b)}! ${topHouse} House takes the house cup.`);
-  showModal({title:`${SCHOOLS[win].short} are Rivalry Week Champions`,kicker:'Saturday 18:00 · weekly resolution',body:`<div class="spread"><div class="big" style="color:${SCHOOLS.GHC.primary}">GHC ${g}</div><div class="big" style="color:${SCHOOLS.BFA.primary}">BFA ${b}</div></div><p>${win===S.player.school?(S.ptsWeek>0?'You contributed, so you get ₦300.':'Contribute next week to share the prize.'):'Next week, your school takes it back.'} The winning gate shows a champions banner for a week. Scores reset now.</p>`,buttons:[{label:'Okay',cls:'school'}]});
+  if(!modalOpen())showModal({title:`${SCHOOLS[win].short} are Rivalry Week Champions`,kicker:'Saturday 18:00 · weekly resolution',body:`<div class="spread"><div class="big" style="color:${SCHOOLS.GHC.primary}">GHC ${g}</div><div class="big" style="color:${SCHOOLS.BFA.primary}">BFA ${b}</div></div><p>${win===S.player.school?(S.ptsWeek>0?'You contributed, so you get ₦300.':'Contribute next week to share the prize.'):'Next week, your school takes it back.'} The winning gate shows a champions banner for a week. Scores reset now.</p>`,buttons:[{label:'Okay',cls:'school'}]});
   S.points={GHC:0,BFA:0};S.ptsWeek=0;renderTaskbar();
 }
 function advance(mins){for(let i=0;i<mins;i++){S.t++;onMinute()}updateClock();renderScene(false)}
 let acc=0;
 setInterval(()=>{
   if(!S||$('#game').hidden)return;
-  if(modalOpen()||!$('#panel').hidden)return;
-  acc+=SPEED/4;
+  acc+=SPEED/4;  // the clock never pauses, not even behind a panel or popup
   while(acc>=1){acc-=1;S.t++;onMinute()}
   updateClock();
 },250);

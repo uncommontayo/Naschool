@@ -184,7 +184,7 @@ const SAVE_KEY='naschool-proto-v1';
 let S=null;            // game state
 let O={step:0,d:{}};   // onboarding state
 let CAST=null;         // derived people
-let SPEED=1;           // game minutes per real second (demo default)
+let SPEED=0.2;         // game minutes per real second: 1 game day = 120 real minutes (MVP spec)
 let LAST_SIG='';
 let paused=false;
 
@@ -1336,15 +1336,14 @@ function weeklyResolution(){
   if(win===S.player.school&&S.ptsWeek>0)money(300,'Rivalry week champions');
   const topHouse=Object.entries(S.housePts).sort((a,b)=>b[1]-a[1])[0][0];if(topHouse===S.player.house)giveBadge('house');
   notify('rivalry',`RIVALRY WEEK RESULT: ${SCHOOLS[win].name} wins ${Math.max(g,b)}–${Math.min(g,b)}! ${topHouse} House takes the house cup.`);
-  showModal({title:`${SCHOOLS[win].short} are Rivalry Week Champions`,kicker:'Saturday 18:00 · weekly resolution',body:`<div class="spread"><div class="big" style="color:${SCHOOLS.GHC.primary}">GHC ${g}</div><div class="big" style="color:${SCHOOLS.BFA.primary}">BFA ${b}</div></div><p>${win===S.player.school?(S.ptsWeek>0?'You contributed, so you get ₦300.':'Contribute next week to share the prize.'):'Next week, your school takes it back.'} The winning gate shows a champions banner for a week. Scores reset now.</p>`,buttons:[{label:'Okay',cls:'school'}]});
+  if(!modalOpen())showModal({title:`${SCHOOLS[win].short} are Rivalry Week Champions`,kicker:'Saturday 18:00 · weekly resolution',body:`<div class="spread"><div class="big" style="color:${SCHOOLS.GHC.primary}">GHC ${g}</div><div class="big" style="color:${SCHOOLS.BFA.primary}">BFA ${b}</div></div><p>${win===S.player.school?(S.ptsWeek>0?'You contributed, so you get ₦300.':'Contribute next week to share the prize.'):'Next week, your school takes it back.'} The winning gate shows a champions banner for a week. Scores reset now.</p>`,buttons:[{label:'Okay',cls:'school'}]});
   S.points={GHC:0,BFA:0};S.ptsWeek=0;renderTaskbar();
 }
 function advance(mins){for(let i=0;i<mins;i++){S.t++;onMinute()}updateClock();renderScene(false)}
 let acc=0;
 setInterval(()=>{
   if(!S||$('#game').hidden)return;
-  if(modalOpen()||!$('#panel').hidden)return;
-  acc+=SPEED/4;
+  acc+=SPEED/4;  // the clock never pauses, not even behind a panel or popup
   while(acc>=1){acc-=1;S.t++;onMinute()}
   updateClock();
 },250);
@@ -1423,7 +1422,7 @@ function openPanel(k){
       <div class="sec"><h3>Discipline</h3>${S.incidents.filter(i=>i.self||P.role==='teacher').length?`<div class="tblwrap"><table class="tbl"><tr><th>When</th><th>Incident</th><th>${P.role==='teacher'?'Student':'By'}</th><th>Outcome</th></tr>${S.incidents.filter(i=>i.self||P.role==='teacher').map(i=>`<tr><td class="mono">${DOW[dow(i.t)].slice(0,3)} ${hhmm(i.t)}</td><td>${esc(i.action)}</td><td>${esc(i.self?i.by:npc(i.who).name)}</td><td>${esc(i.pun)}</td></tr>`).join('')}</table></div>`:'<p class="note">Clean record. For now.</p>'}</div>
       <div class="sec"><h3>Leadership</h3><p class="note">${P.role==='student'?`Class Captain: ${npc(CAST.buddy).name} (NPC). The human with the top class reputation takes over at the weekly reset.${P.year==='SSS3'?' Prefects: top 4 SSS3 humans by reputation.':''}`:'Teachers can coach the rivalry quiz team from the staff notices.'}</p></div>`;break}
     case 'notifs':{title='Notifications';S.unread=0;renderHUD();body=S.notifs.length?`<div class="list">${S.notifs.map(n=>`<div class="item"><span class="t"><b>${esc(n.text)}</b><small>${DOW[dow(n.t)].slice(0,3)} ${hhmm(n.t)} · ${n.type}</small></span></div>`).join('')}</div>`:'<p>No notifications yet.</p>';break}
-    case 'tester':{title='Settings';body=`<div class="sec tester"><h3>Clock speed</h3><div class="row">${[[0.2,'Relaxed'],[1,'Normal'],[6,'Fast']].map(([v,l])=>`<button class="chip ${SPEED===v?'on':''}" data-a="${act(()=>{SPEED=v;openPanel('tester')})}">${l}</button>`).join('')}</div><p class="note">The clock pauses while a panel or popup is open. In the full multiplayer game, the clock never pauses.</p></div>
+    case 'tester':{title='Settings';body=`<div class="sec tester"><h3>Clock speed</h3><div class="row">${[[0.2,'Relaxed'],[1,'Normal'],[6,'Fast']].map(([v,l])=>`<button class="chip ${SPEED===v?'on':''}" data-a="${act(()=>{SPEED=v;openPanel('tester')})}">${l}</button>`).join('')}</div><p class="note">The clock never pauses, even with a panel or popup open. Default is Relaxed (1 game day = 120 real minutes). This switch is for testing only: in the full game the server owns the clock.</p></div>
       <div class="sec tester"><h3>Jump in time</h3><div class="row">${[['Assembly',450],['Period 1',480],['Break',630],['Lunch',780],['After school 16:00',960],['Prep 19:00',1140],['Night 21:30',1290]].map(([l,m])=>`<button class="btn ghost sm" data-a="${act(()=>{jumpTo(null,m);closePanel()})}">${l}</button>`).join('')}<button class="btn ghost sm" data-a="${act(()=>{advance(60);closePanel()})}">+1 hour</button><button class="btn ghost sm" data-a="${act(()=>{jumpTo(5,595);closePanel()})}">Saturday 09:55</button></div></div>
       <div class="sec tester"><h3>Trigger</h3><div class="row"><button class="btn ghost sm" data-a="${act(()=>{closePanel();randomEvent(true)})}">Random event here</button><button class="btn ghost sm" data-a="${act(()=>{closePanel();weeklyResolution()})}">Weekly rivalry result</button><button class="btn ghost sm" data-a="${act(()=>{closePanel();showWYWA()})}">While You Were Away</button>${P.role==='teacher'?`<button class="btn ghost sm" data-a="${act(()=>{closePanel();const tc=nextTeachPeriod();if(tc!=null){jumpTo(null,PERIODS[tc]);travel('classroom')}})}">Jump to my next lesson</button>`:''}</div></div>
       <div class="sec tester"><h3>Game</h3><div class="row"><button class="btn ghost sm" data-a="${act(()=>{save();toast('Saved on this device.')})}">Save now</button><button class="btn bad sm" data-a="${act(()=>{showModal({title:'Start a new character?',body:'<p>This deletes the saved game in this browser.</p>',buttons:[{label:'Cancel'},{label:'Start over',cls:'bad',fn:()=>{wipe();location.reload()}}]})})}">New character</button></div><p class="note">Single-player simulation: NPCs and 4 simulated players (marked 👤) stand in for real multiplayer.</p></div>`;break}

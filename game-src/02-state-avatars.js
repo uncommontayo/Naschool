@@ -3,7 +3,7 @@ const SAVE_KEY='naschool-proto-v1';
 let S=null;            // game state
 let O={step:0,d:{}};   // onboarding state
 let CAST=null;         // derived people
-let SPEED=1;           // game minutes per real second (demo default)
+let SPEED=0.2;         // game minutes per real second: 1 game day = 120 real minutes (MVP spec)
 let LAST_SIG='';
 let paused=false;
 
