@@ -8,22 +8,37 @@ const CHAOS={
   raid:{n:'Snack raid (NPC lockers only)',base:.4,ok:'You got a biscuit pack.',pun:'grass'},
   sneakout:{n:'Sneak out to Town Junction',base:.5,ok:'You slipped past the gate. Cheaper food awaits.',pun:'detention'},
   rival:{n:'Sneak into the rival campus',base:.6,ok:'You spotted their quiz practice sheet. Report it back for +5 school points.',pun:'rivalBack',hp:-5},
-  vernacular:{n:'Speak vernacular on English-only Wednesday',base:.3,ok:'+Social with nearby students.',pun:'lines'}
+  vernacular:{n:'Speak vernacular on English-only Wednesday',base:.3,ok:'+Social with nearby students.',pun:'lines'},
+  /* onOk(target) runs when the player gets away with it. */
+  dodge:{n:'Dodge evening prep',base:.45,ok:'You slipped away. A free hour with your friends.',pun:'detention',
+    onOk:()=>rep('SOC',2)},
+  mufti:{n:'Wear mufti to school',base:.35,ok:'Nobody checked. You look great out of uniform.',pun:'warning',
+    onOk:()=>rep('SOC',3)},
+  slippers:{n:"Hide a friend's slippers",base:.2,ok:'Hilarious. They find them under a bed.',pun:'warning',
+    onOk:n=>addRel(n.id,relLevel(rel(n.id),'peer')==='Acquaintance'?-3:3,true)}
 };
-function chaosPrompt(id){
+/* Where each of the three newer actions is allowed. Returns a reason when it is not. */
+function chaosBlocker(id){
+  const m=tod(S.t);
+  if(id==='dodge'&&!(S.loc==='hostel'&&m>=1140&&m<1260))return 'Evening prep is 19:00 to 21:00, in the hostel.';
+  if(id==='mufti'&&!(weekday(S.t)&&m>=435&&m<840))return 'Mufti only makes sense during school hours.';
+  return '';
+}
+function chaosPrompt(id,target){
   const c=CHAOS[id],P=S.player;let p=c.base;const mods=[];
   const strict=peopleAt(S.loc).find(n=>n.kind==='teacher'&&n.style==='STR');if(strict){p+=.2;mods.push(`${strict.name} is strict (+20%)`)}
   if(id==='noise'||id==='sleep'){if(!peopleAt('classroom').some(n=>n.kind==='teacher')&&id==='noise'){p=.1;mods.push('No teacher in the room')}}
   p=clamp(p,.05,.9);const lvl=p<.34?'l':p<.55?'m':'h';
-  showModal({title:c.n,kicker:'Chaos · risk check',body:`<div class="risk ${lvl}"><span></span><span></span><span></span></div><p><b>Risk: ${lvl==='l'?'Low':lvl==='m'?'Medium':'High'}</b> · ${Math.round(p*100)}% chance of getting caught${mods.length?' ('+mods.join(', ')+')':''}.</p><p class="note">Chaos is fictional and harmless. You can never take items or money from other players.</p>`,buttons:[{label:'Not today'},{label:'Do it',cls:'bad',fn:()=>{closeModal();doChaos(id,p)}}]});
+  showModal({title:c.n,kicker:'Chaos · risk check',body:`<div class="risk ${lvl}"><span></span><span></span><span></span></div><p><b>Risk: ${lvl==='l'?'Low':lvl==='m'?'Medium':'High'}</b> · ${Math.round(p*100)}% chance of getting caught${mods.length?' ('+mods.join(', ')+')':''}.</p><p class="note">Chaos is fictional and harmless. You can never take items or money from other players.</p>`,buttons:[{label:'Not today'},{label:'Do it',cls:'bad',fn:()=>{closeModal();doChaos(id,p,target)}}]});
 }
-function doChaos(id,p){
+function doChaos(id,p,target){
   const c=CHAOS[id];advance(5);const caught=Math.random()<p;
   if(!caught){S.stats.chaosOk++;rep('MIS',3);checkBadges();
     if(id==='noodles'){removeItem('noodles')||null;peopleAt('hostel').filter(n=>n.kind==='student').forEach(n=>addRel(n.id,5,true))}
     if(id==='raid')addItem('biscuit');
     if(id==='sneakout'){S.loc='junction';S.px=50;S.py=80;renderScene(true)}
     if(id==='rival'){S.flags.intel=true;notify('task','Rivalry intel found. Talk to any teacher or the VP: Report something → Rivalry intel.')}
+    if(c.onOk)c.onOk(target);
     if(id==='noise'||id==='alarm')peopleAt(S.loc).filter(n=>['FUN','MIS'].includes(n.arch)).forEach(n=>addRel(n.id,3,true));
     showModal({title:'It worked',kicker:c.n,body:`<p>${c.ok}</p>`,buttons:[{label:'Nice',cls:'school'}]});return}
   rep('DIS',-4);if(c.hp)housePts(c.hp,'caught');

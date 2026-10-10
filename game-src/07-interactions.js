@@ -38,6 +38,7 @@ function actionsFor(n){
     if(friend){A.push({l:'Give item',fn:()=>giveItem(n)},{l:'Send money',fn:()=>giveMoney(n)});if(M.started&&!M.resolved&&!M.party.includes(n.id)&&!n.rival)A.push({l:'Invite to mission',fn:()=>inviteParty(n)})}
     else if(!n.rival&&r>=10)A.push({l:'Give item',dis:'Needs Friend'});
     A.push({l:'Challenge',fn:()=>challengeMenu(n)});
+    if(S.loc==='hostel'&&r>=10&&!n.rival)A.push({l:'Hide their slippers',s:'Chaos',fn:()=>chaosPrompt('slippers',n)});
     if(n.id===CAST.prankster&&M.started&&!M.resolved&&M.clues[3]&&M.clues[4]&&M.clues[5])A.push({l:'Show the clues',s:'Confront',fn:confess});
     if(n.arch==='MIS'&&!n.rival&&!S.flags.scam)A.push({l:'Buy "test answers"',s:'₦500',fn:()=>scam(n)});
     return A;
@@ -104,7 +105,7 @@ function ctxHotspot(kind){
     case 'bed':title='Bed';items.push({l:m>=1260||m<330?'Sleep until the morning bell':'Rest for 30 minutes',fn:()=>{if(m>=1260||m<330){const target=m>=1260?(1440-m)+330:330-m;advance(target);notify('task','Good morning! New day, new tasks.')}else advance(30)}});break;
     case 'locker':title='Locker';
       if(!st)items.push({l:'Inspect lockers',s:'Duty teacher',fn:inspectDorm});
-      if(st){items.push({l:'Cook noodles',s:'Chaos · after 21:00',fn:()=>m>=1260||m<300?chaosPrompt('noodles'):toast('Too early. Matron is still around.')});if(S.flags.inspection===dayOf(S.t))items.push({l:'Hide your snack',s:'Chaos',fn:()=>chaosPrompt('hide')});items.push({l:'Snack raid on an NPC locker',s:'Chaos',fn:()=>chaosPrompt('raid')})}
+      if(st){items.push({l:'Cook noodles',s:'Chaos · after 21:00',fn:()=>m>=1260||m<300?chaosPrompt('noodles'):toast('Too early. Matron is still around.')});items.push({l:'Dodge evening prep',s:'Chaos · 19:00 to 21:00',fn:()=>chaosBlocker('dodge')?toast(chaosBlocker('dodge')):chaosPrompt('dodge')});if(S.flags.inspection===dayOf(S.t))items.push({l:'Hide your snack',s:'Chaos',fn:()=>chaosPrompt('hide')});items.push({l:'Snack raid on an NPC locker',s:'Chaos',fn:()=>chaosPrompt('raid')})}
       break;
     case 'gate':title='Gate';
       if(st){items.push({l:'Leave for Town Junction',fn:()=>travel('junction')});items.push({l:`Sneak into ${SCHOOLS[CAST.rival].short} campus`,s:'Chaos',fn:()=>chaosPrompt('rival')})}
