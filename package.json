@@ -9,6 +9,8 @@
   "scripts": {
     "dev": "node server.mjs",
     "start": "NODE_ENV=production node server.mjs",
+    "build:game": "node tools/build_game.mjs",
+    "check:game": "node tools/build_game.mjs --check",
     "test": "node --test"
   }
 }
