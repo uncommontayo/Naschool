@@ -5,6 +5,7 @@ function skipTutorial(){S.tut=10;giveBadge('first');renderScene(true);renderTask
 /* =================== BOOT =================== */
 (function boot(){
   const saved=load();
-  if(saved&&saved.player){O.d={};}
+  if(saved&&saved.player)O.d={};
+  else restoreOnb();
   renderOnb();
 })();

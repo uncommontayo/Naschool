@@ -533,9 +533,27 @@ function newState(){
 const ONB_STUDENT=['account','role','school','test','year','status','look','reveal'];
 const ONB_TEACHER=['account','role','school','test','subject','look','reveal'];
 function steps(){return O.d.role==='teacher'?ONB_TEACHER:ONB_STUDENT}
+
+/* Sign-up progress survives a refresh. Saved only once the account step is
+   validated, and without the date of birth. Cleared when the game starts. */
+const ONB_KEY='naschool-onboarding-v1';
+function saveOnb(){
+  if(O.step===0)return;
+  const {dob,...d}=O.d;
+  try{localStorage.setItem(ONB_KEY,JSON.stringify({step:O.step,d}))}catch(e){}
+}
+function restoreOnb(){
+  try{
+    const r=JSON.parse(localStorage.getItem(ONB_KEY)||'null');
+    if(!r||!r.d||typeof r.step!=='number')return;
+    O.d=r.d;
+    O.step=Math.max(0,Math.min(r.step,steps().length-1));
+  }catch(e){}
+}
+function clearOnb(){try{localStorage.removeItem(ONB_KEY)}catch(e){}}
 function setSchoolVars(code){const s=SCHOOLS[code||'GHC'];const r=document.documentElement.style;r.setProperty('--school',s.primary);r.setProperty('--school2',s.secondary);r.setProperty('--schoolAcc',s.accent);r.setProperty('--rival',SCHOOLS[code==='BFA'?'GHC':'BFA'].primary)}
 function renderOnb(){
-  const st=steps(),key=st[O.step];setSchoolVars(O.d.school);
+  const st=steps(),key=st[O.step];setSchoolVars(O.d.school);saveOnb();
   const prog=`<div class="steps" aria-hidden="true">${st.map((s,i)=>`<span class="${i<=O.step?'on':''}"></span>`).join('')}</div>`;
   let body='';
   if(key==='account')body=onbAccount();
@@ -661,6 +679,7 @@ function onbReveal(){
 
 /* =================== GAME START =================== */
 function startGame(){
+  clearOnb();
   S=newState();buildCast();newDay(true);
   if(S.player.role==='teacher')seedTeacherTasks();
   showGame();save();
@@ -1468,6 +1487,7 @@ function skipTutorial(){S.tut=10;giveBadge('first');renderScene(true);renderTask
 /* =================== BOOT =================== */
 (function boot(){
   const saved=load();
-  if(saved&&saved.player){O.d={};}
+  if(saved&&saved.player)O.d={};
+  else restoreOnb();
   renderOnb();
 })();
