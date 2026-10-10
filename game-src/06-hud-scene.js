@@ -90,7 +90,7 @@ function renderScene(force){
   html+=`<div class="night" style="background:rgba(8,12,36,${nightAlpha(S.t)})"></div>`;
   html+=exitsHTML();
   if(S.tut&&S.tut<10)html+=`<div class="tut"><span>${TUT_TEXT[S.tut]}</span><button data-a="${act(skipTutorial)}">Skip tutorial</button></div>`;
-  else html+=`<div class="scene-hint">Tap people and objects to see what you can do. Tap the ground to walk.</div>`;
+  else html+=`<div class="scene-hint">Tap people and objects to see what you can do. Tap the ground or use WASD / arrow keys to walk.</div>`;
   const prevIn=$('#chat-in'),prevVal=prevIn?prevIn.value:'',hadFocus=prevIn&&document.activeElement===prevIn;
   sc.innerHTML=html+chatDockHTML();
   wireChatForm();
@@ -106,9 +106,30 @@ document.addEventListener('pointerdown',e=>{
   if(e.target.closest('button,form,#chatdock,.tut'))return;
   const r=sc.getBoundingClientRect();const x=(e.clientX-r.left)/r.width*100,y=(e.clientY-r.top)/r.height*100;
   if(y<56)return;
-  S.px=clamp(x,6,94);S.py=clamp(y,62,95);const me=$('#me');if(me){me.style.left=S.px+'%';me.style.top=S.py+'%';me.style.zIndex=10+Math.round(S.py)}
+  placeMe(x,y);
   closeCtx();
+  advanceTutorialAfterMove();
+});
+
+/* Walking: tap the ground, or use WASD / arrow keys. Both go through placeMe(). */
+function placeMe(x,y){
+  S.px=clamp(x,6,94);S.py=clamp(y,62,95);
+  const me=$('#me');
+  if(me){me.style.left=S.px+'%';me.style.top=S.py+'%';me.style.zIndex=10+Math.round(S.py)}
+}
+function advanceTutorialAfterMove(){
   if(S.tut===1){S.tut=2;renderScene(true);renderTaskbar()}
+}
+const KEY_STEP={ArrowLeft:[-2,0],a:[-2,0],ArrowRight:[2,0],d:[2,0],ArrowUp:[0,-1.5],w:[0,-1.5],ArrowDown:[0,1.5],s:[0,1.5]};
+document.addEventListener('keydown',e=>{
+  const step=KEY_STEP[e.key.length===1?e.key.toLowerCase():e.key];
+  if(!step||!S||$('#game').hidden)return;
+  if(e.ctrlKey||e.metaKey||e.altKey||modalOpen()||!$('#panel').hidden)return;
+  if(e.target.closest('input,textarea,select,[contenteditable]'))return;
+  e.preventDefault();
+  placeMe(S.px+step[0],S.py+step[1]);
+  closeCtx();
+  advanceTutorialAfterMove();
 });
 function travel(id){
   closeCtx();
