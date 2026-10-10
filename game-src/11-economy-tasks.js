@@ -21,7 +21,7 @@ function koloWithdraw(a){if(S.kolo.bal<a)return toast('Not enough in your Kolo.'
 function challengeMenu(n){showModal({title:`Challenge ${n.name}`,body:`<div class="list"><button class="choice" data-a="${act(()=>{closeModal();quizChallenge(n)})}"><b>Quiz challenge</b><small>3 questions · most correct wins</small></button><button class="choice" data-a="${act(()=>{closeModal();football(n)})}"><b>Football challenge</b><small>3 rounds · Attack, Pass or Defend</small></button></div>`,buttons:[{label:'Cancel'}]})}
 function quizChallenge(n){
   if(chance(.15)&&!n.human)return toast(`${n.name.split(' ')[0]} declined: "Not now, I'm busy."`);
-  const yr=S.player.role==='student'?S.player.year:'SSS3';const qs=shuffle(QB.filter(q=>q.y===yr)).slice(0,3);
+  const yr=S.player.role==='student'?S.player.year:'SSS3';const qs=pickQuestions(QB.filter(q=>q.y===yr),3);
   const p=n.arch==='ACA'?.8:n.arch==='COM'?.7:.5;const opp=qs.map(()=>chance(p));
   runQuestions({title:`Quiz challenge vs ${n.name.split(' ')[0]}`,qs,time:15,versus:(ok,i)=>`${n.name.split(' ')[0]} got it ${opp[i]?'right':'wrong'}.`,onDone:res=>{
     const me=res.filter(x=>x).length,them=opp.filter(x=>x).length;const out=me>them?'Win':me<them?'Lose':'Draw';
@@ -39,7 +39,7 @@ function football(n){
   show();
 }
 function rivalryQuiz(){
-  const yr=S.player.year||'SSS3';const qs=shuffle(QB.filter(q=>q.y===yr)).slice(0,5);const opp=qs.map(()=>chance(.55));
+  const yr=S.player.year||'SSS3';const qs=pickQuestions(QB.filter(q=>q.y===yr),5);const opp=qs.map(()=>chance(.55));
   runQuestions({title:`Rivalry quiz · ${S.player.school} vs ${CAST.rival}`,qs,time:15,versus:(ok,i)=>`${CAST.rival} ${opp[i]?'answered correctly':'missed it'}.`,onDone:res=>{
     const team=res.filter(x=>x).length+Math.round(Math.random());const them=opp.filter(x=>x).length+Math.round(Math.random());const win=team>them;
     if(win){schoolPts(10,'Rivalry quiz win');money(200,'Rivalry quiz');if(S.player.role==='teacher'&&S.flags.coach)taskTick('t_coach')}else{S.points[CAST.rival]+=10;renderTaskbar()}

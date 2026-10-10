@@ -80,30 +80,30 @@ const TYPES={ACA:['The Academic Weapon','Teachers know your name for good reason
 
 /* question bank (section 11) */
 const QB=[
- {y:'JSS3',s:'MTH',q:'Simplify 3/4 + 2/3',o:['5/7','17/12','5/12','6/7'],a:1,e:'9/12 + 8/12 = 17/12.'},
- {y:'JSS3',s:'MTH',q:'What is 15% of 200?',o:['20','25','30','35'],a:2,e:'15/100 × 200 = 30.'},
- {y:'JSS3',s:'ENG',q:'Neither the teacher nor the students ___ in class.',o:['is','are','was','be'],a:1,e:'The verb agrees with the nearer subject, "students".'},
- {y:'JSS3',s:'ENG',q:'Choose the correct spelling.',o:['Recieve','Receive','Receeve','Riceive'],a:1,e:'"i before e, except after c": receive.'},
- {y:'JSS3',s:'FIN',q:'Which of these is a need?',o:['Video game','Designer shoes','School textbook','Ice cream'],a:2,e:'Needs are required for school or survival; the rest are wants.'},
- {y:'JSS3',s:'FIN',q:'You earn ₦1,000 and spend ₦650. How much is left?',o:['₦250','₦350','₦450','₦1,650'],a:1,e:'1,000 − 650 = 350.'},
- {y:'JSS3',s:'BSC',q:'How do green plants make their food?',o:['Respiration','Photosynthesis','Digestion','Excretion'],a:1,e:'Plants use sunlight, water and carbon dioxide to make food.'},
- {y:'JSS3',s:'BSC',q:'Which organ pumps blood around the body?',o:['Lungs','Liver','Heart','Kidney'],a:2,e:'The heart pumps blood through the arteries and veins.'},
- {y:'JSS3',s:'HIS',q:'When did Nigeria gain independence?',o:['1 Oct 1960','1 Oct 1963','12 Jun 1993','29 May 1999'],a:0,e:'Nigeria became independent from Britain on 1 October 1960.'},
- {y:'JSS3',s:'HIS',q:"Who was Nigeria's first Prime Minister?",o:['Tafawa Balewa','Nnamdi Azikiwe','Obafemi Awolowo','Ahmadu Bello'],a:0,e:'Sir Abubakar Tafawa Balewa led the government at independence.'},
- {y:'JSS3',s:'GEO',q:'The longest river in Nigeria is',o:['River Benue','River Niger','Ogun River','Cross River'],a:1,e:'The Niger enters from the north-west and flows to the Atlantic.'},
- {y:'JSS3',s:'GEO',q:'What is the capital of Nigeria?',o:['Lagos','Abuja','Kano','Ibadan'],a:1,e:'Abuja became the capital in 1991.'},
- {y:'SSS3',s:'MTH',q:'Find the roots of x² − 5x + 6 = 0',o:['1 and 6','2 and 3','−2 and −3','3 and 5'],a:1,e:'(x − 2)(x − 3) = 0.'},
- {y:'SSS3',s:'MTH',q:'Evaluate log₁₀ 1000',o:['2','3','10','100'],a:1,e:'10³ = 1000.'},
- {y:'SSS3',s:'ENG',q:'Nearest in meaning to "candid":',o:['frank','secretive','angry','proud'],a:0,e:'Candid means open and honest.'},
- {y:'SSS3',s:'ENG',q:'Opposite of "scarce":',o:['rare','plentiful','costly','small'],a:1,e:'Scarce means in short supply; plentiful is the opposite.'},
- {y:'SSS3',s:'FIN',q:'₦10,000 at 10% simple interest per year. Interest after 2 years?',o:['₦1,000','₦2,000','₦2,100','₦12,000'],a:1,e:'Simple interest = 10,000 × 10% × 2.'},
- {y:'SSS3',s:'FIN',q:'Bought for ₦800, sold for ₦1,000. Profit percentage?',o:['20%','25%','80%','200%'],a:1,e:'Profit 200 ÷ cost 800 = 25%.'},
- {y:'SSS3',s:'BSC',q:'The pH of pure water at 25°C is',o:['0','5','7','14'],a:2,e:'Pure water is neutral.'},
- {y:'SSS3',s:'BSC',q:'The chemical symbol for sodium is',o:['So','Sd','Na','S'],a:2,e:'Na comes from the Latin "natrium".'},
- {y:'SSS3',s:'HIS',q:"Who was Nigeria's first Executive President (1979)?",o:['Shehu Shagari','Nnamdi Azikiwe','Yakubu Gowon','Olusegun Obasanjo'],a:0,e:'The 1979 constitution created an executive presidency.'},
- {y:'SSS3',s:'HIS',q:'Nigeria became a republic in which year?',o:['1960','1963','1966','1979'],a:1,e:'Nigeria became a republic on 1 October 1963.'},
- {y:'SSS3',s:'GEO',q:'The harmattan wind blows into Nigeria from the',o:['North-east','South-west','South-east','West'],a:0,e:'It is a dry, dusty wind from the Sahara.'},
- {y:'SSS3',s:'GEO',q:'Which vegetation belt covers most of northern Nigeria?',o:['Rainforest','Mangrove','Savanna','Montane'],a:2,e:'Guinea, Sudan and Sahel savanna cover the north.'}
+ {y:'JSS3',s:'MTH',l:2,q:'Simplify 3/4 + 2/3',o:['5/7','17/12','5/12','6/7'],a:1,e:'9/12 + 8/12 = 17/12.'},
+ {y:'JSS3',s:'MTH',l:3,q:'What is 15% of 200?',o:['20','25','30','35'],a:2,e:'15/100 × 200 = 30.'},
+ {y:'JSS3',s:'ENG',l:2,q:'Neither the teacher nor the students ___ in class.',o:['is','are','was','be'],a:1,e:'The verb agrees with the nearer subject, "students".'},
+ {y:'JSS3',s:'ENG',l:3,q:'Choose the correct spelling.',o:['Recieve','Receive','Receeve','Riceive'],a:1,e:'"i before e, except after c": receive.'},
+ {y:'JSS3',s:'FIN',l:2,q:'Which of these is a need?',o:['Video game','Designer shoes','School textbook','Ice cream'],a:2,e:'Needs are required for school or survival; the rest are wants.'},
+ {y:'JSS3',s:'FIN',l:3,q:'You earn ₦1,000 and spend ₦650. How much is left?',o:['₦250','₦350','₦450','₦1,650'],a:1,e:'1,000 − 650 = 350.'},
+ {y:'JSS3',s:'BSC',l:2,q:'How do green plants make their food?',o:['Respiration','Photosynthesis','Digestion','Excretion'],a:1,e:'Plants use sunlight, water and carbon dioxide to make food.'},
+ {y:'JSS3',s:'BSC',l:3,q:'Which organ pumps blood around the body?',o:['Lungs','Liver','Heart','Kidney'],a:2,e:'The heart pumps blood through the arteries and veins.'},
+ {y:'JSS3',s:'HIS',l:2,q:'When did Nigeria gain independence?',o:['1 Oct 1960','1 Oct 1963','12 Jun 1993','29 May 1999'],a:0,e:'Nigeria became independent from Britain on 1 October 1960.'},
+ {y:'JSS3',s:'HIS',l:3,q:"Who was Nigeria's first Prime Minister?",o:['Tafawa Balewa','Nnamdi Azikiwe','Obafemi Awolowo','Ahmadu Bello'],a:0,e:'Sir Abubakar Tafawa Balewa led the government at independence.'},
+ {y:'JSS3',s:'GEO',l:2,q:'The longest river in Nigeria is',o:['River Benue','River Niger','Ogun River','Cross River'],a:1,e:'The Niger enters from the north-west and flows to the Atlantic.'},
+ {y:'JSS3',s:'GEO',l:3,q:'What is the capital of Nigeria?',o:['Lagos','Abuja','Kano','Ibadan'],a:1,e:'Abuja became the capital in 1991.'},
+ {y:'SSS3',s:'MTH',l:4,q:'Find the roots of x² − 5x + 6 = 0',o:['1 and 6','2 and 3','−2 and −3','3 and 5'],a:1,e:'(x − 2)(x − 3) = 0.'},
+ {y:'SSS3',s:'MTH',l:5,q:'Evaluate log₁₀ 1000',o:['2','3','10','100'],a:1,e:'10³ = 1000.'},
+ {y:'SSS3',s:'ENG',l:4,q:'Nearest in meaning to "candid":',o:['frank','secretive','angry','proud'],a:0,e:'Candid means open and honest.'},
+ {y:'SSS3',s:'ENG',l:5,q:'Opposite of "scarce":',o:['rare','plentiful','costly','small'],a:1,e:'Scarce means in short supply; plentiful is the opposite.'},
+ {y:'SSS3',s:'FIN',l:4,q:'₦10,000 at 10% simple interest per year. Interest after 2 years?',o:['₦1,000','₦2,000','₦2,100','₦12,000'],a:1,e:'Simple interest = 10,000 × 10% × 2.'},
+ {y:'SSS3',s:'FIN',l:5,q:'Bought for ₦800, sold for ₦1,000. Profit percentage?',o:['20%','25%','80%','200%'],a:1,e:'Profit 200 ÷ cost 800 = 25%.'},
+ {y:'SSS3',s:'BSC',l:4,q:'The pH of pure water at 25°C is',o:['0','5','7','14'],a:2,e:'Pure water is neutral.'},
+ {y:'SSS3',s:'BSC',l:5,q:'The chemical symbol for sodium is',o:['So','Sd','Na','S'],a:2,e:'Na comes from the Latin "natrium".'},
+ {y:'SSS3',s:'HIS',l:4,q:"Who was Nigeria's first Executive President (1979)?",o:['Shehu Shagari','Nnamdi Azikiwe','Yakubu Gowon','Olusegun Obasanjo'],a:0,e:'The 1979 constitution created an executive presidency.'},
+ {y:'SSS3',s:'HIS',l:5,q:'Nigeria became a republic in which year?',o:['1960','1963','1966','1979'],a:1,e:'Nigeria became a republic on 1 October 1963.'},
+ {y:'SSS3',s:'GEO',l:4,q:'The harmattan wind blows into Nigeria from the',o:['North-east','South-west','South-east','West'],a:0,e:'It is a dry, dusty wind from the Sahara.'},
+ {y:'SSS3',s:'GEO',l:5,q:'Which vegetation belt covers most of northern Nigeria?',o:['Rainforest','Mangrove','Savanna','Montane'],a:2,e:'Guinea, Sudan and Sahel savanna cover the north.'}
 ];
 
 /* timetable: JSS3 runs the list; SSS3 runs it shifted by one period, so a subject never clashes */
@@ -1080,6 +1080,32 @@ function resolveMystery(ch,bonus){
 function inviteParty(n){const M=S.mystery;if(M.party.length>=2)return toast('A mission party holds you plus 2 players.','bad');showModal({title:'Mission invite sent',body:`<p><b>${esc(n.name)}</b> got: "${esc(S.player.name)} invited you to a mystery mission. Join / Decline."</p>`,buttons:[{label:'OK',cls:'school',fn:()=>{closeModal();setTimeout(()=>{if(chance(.8)||n.human){M.party.push(n.id);addRel(n.id,10);progress('invite',1);notify('social',`${n.name} joined your mission. Clues are shared.`)}else notify('social',`${n.name} declined your mission invite.`)},600)}}]})}
 
 /* =================== CLASS + QUESTIONS =================== */
+
+/* Adaptive difficulty. Each question has a level (l) from 1 to 5.
+   JSS3 plays levels 2-3 and SSS3 plays levels 4-5. After every 5 answers:
+   4 or 5 correct moves the player up a level, 0 or 1 correct moves them down,
+   always inside their band. */
+const LEVEL_BAND={JSS3:[2,3],SSS3:[4,5]};
+const ADAPT_EVERY=5;
+function diffState(){
+  return S.diff||(S.diff={level:LEVEL_BAND[S.player.year][0],recent:[]});
+}
+function recordAnswer(ok){
+  if(S.player.role!=='student')return;
+  const d=diffState(),[low,high]=LEVEL_BAND[S.player.year];
+  d.recent.push(ok);
+  if(d.recent.length<ADAPT_EVERY)return;
+  const right=d.recent.filter(Boolean).length;
+  if(right>=4)d.level=Math.min(high,d.level+1);
+  else if(right<=1)d.level=Math.max(low,d.level-1);
+  d.recent=[];
+}
+/* Take n questions from pool, closest to the player's level first. */
+function pickQuestions(pool,n){
+  if(S.player.role!=='student')return shuffle(pool).slice(0,n);
+  const level=diffState().level;
+  return shuffle(pool).sort((a,b)=>Math.abs(a.l-level)-Math.abs(b.l-level)).slice(0,n);
+}
 function currentSubject(){const p=periodIdx(S.t);return p<0?'':SUBJ[subjectFor(S.player.year,S.t,p)]}
 function lessonKey(){return dayOf(S.t)+'-'+periodIdx(S.t)}
 function canAttend(){const P=S.player;return P.role==='student'&&S.loc==='classroom'&&periodIdx(S.t)>=0&&!S.attended[lessonKey()]}
@@ -1094,7 +1120,7 @@ function attendClass(sub,isTest){
   const yr=S.player.year;
   let pool=QB.filter(q=>q.y===yr&&(isTest||q.s===sub));
   if(!isTest&&pool.length<3)pool=pool.concat(QB.filter(q=>q.y===yr&&q.s!==sub));
-  pool=shuffle(pool).slice(0,isTest?10:3);
+  pool=pickQuestions(pool,isTest?10:3);
   const popQuiz=!isTest&&S.popDay!==dayOf(S.t)&&chance(.3);
   runQuestions({title:isTest?'Weekly class test':popQuiz?`Pop quiz! · ${SUBJ[sub]}`:`${SUBJ[sub]} · class activity`,qs:pool,time:20,onDone:(res)=>{
     const c=res.filter(x=>x).length;
@@ -1119,7 +1145,7 @@ function runQuestions({title,qs,time=20,onDone,versus}){
   };
   const answer=j=>{
     if(timer){clearInterval(timer);timer=null}else return;
-    const q=qs[i],ok=j===q.a;res.push(ok);S.answered++;if(ok)S.correct++;if(ok&&q.s==='MTH')progress('maths',1);if(!ok)S.missed=q;
+    const q=qs[i],ok=j===q.a;res.push(ok);recordAnswer(ok);S.answered++;if(ok)S.correct++;if(ok&&q.s==='MTH')progress('maths',1);if(!ok)S.missed=q;
     S.houseGoal+=ok?1:0;
     document.querySelectorAll('.chalkq .opts button').forEach(b=>{const k=+b.dataset.j;b.disabled=true;if(k===q.a)b.classList.add('right');else if(k===j)b.classList.add('wrong')});
     $('#qexp').innerHTML=`<div class="explain"><b>${ok?'Correct.':j<0?"Time's up.":'Not quite.'}</b> ${esc(q.e)}${versus?`<br>${esc(versus(ok,i))}`:''}</div><div class="row end" style="margin-top:8px"><button class="btn gold sm" data-a="${act(next)}">${i+1<qs.length?'Next question':'See result'}</button></div>`;
@@ -1128,7 +1154,7 @@ function runQuestions({title,qs,time=20,onDone,versus}){
   const next=()=>{i++;if(i<qs.length)show();else{closeModal();onDone&&onDone(res)}};
   show();
 }
-function practiceQ(n){const yr=S.player.year;const q=shuffle(QB.filter(x=>x.y===yr))[0];runQuestions({title:`${n.name} asks you`,qs:[q],time:20,onDone:r=>{if(r[0]){addRel(n.id,3);schoolPts(1,'Correct answer')}}})}
+function practiceQ(n){const yr=S.player.year;const q=pickQuestions(QB.filter(x=>x.y===yr),1)[0];runQuestions({title:`${n.name} asks you`,qs:[q],time:20,onDone:r=>{if(r[0]){addRel(n.id,3);schoolPts(1,'Correct answer')}}})}
 function reviseMissed(){if(!S.missed)return toast('No missed questions to revise yet.');advance(10);const q=S.missed;S.missed=null;runQuestions({title:'Revision retry',qs:[q],time:25,onDone:r=>{if(r[0])toast('Revised and correct. +Academic','good')}})}
 
 /* =================== TEACHER LESSON =================== */
@@ -1319,7 +1345,7 @@ function koloWithdraw(a){if(S.kolo.bal<a)return toast('Not enough in your Kolo.'
 function challengeMenu(n){showModal({title:`Challenge ${n.name}`,body:`<div class="list"><button class="choice" data-a="${act(()=>{closeModal();quizChallenge(n)})}"><b>Quiz challenge</b><small>3 questions · most correct wins</small></button><button class="choice" data-a="${act(()=>{closeModal();football(n)})}"><b>Football challenge</b><small>3 rounds · Attack, Pass or Defend</small></button></div>`,buttons:[{label:'Cancel'}]})}
 function quizChallenge(n){
   if(chance(.15)&&!n.human)return toast(`${n.name.split(' ')[0]} declined: "Not now, I'm busy."`);
-  const yr=S.player.role==='student'?S.player.year:'SSS3';const qs=shuffle(QB.filter(q=>q.y===yr)).slice(0,3);
+  const yr=S.player.role==='student'?S.player.year:'SSS3';const qs=pickQuestions(QB.filter(q=>q.y===yr),3);
   const p=n.arch==='ACA'?.8:n.arch==='COM'?.7:.5;const opp=qs.map(()=>chance(p));
   runQuestions({title:`Quiz challenge vs ${n.name.split(' ')[0]}`,qs,time:15,versus:(ok,i)=>`${n.name.split(' ')[0]} got it ${opp[i]?'right':'wrong'}.`,onDone:res=>{
     const me=res.filter(x=>x).length,them=opp.filter(x=>x).length;const out=me>them?'Win':me<them?'Lose':'Draw';
@@ -1337,7 +1363,7 @@ function football(n){
   show();
 }
 function rivalryQuiz(){
-  const yr=S.player.year||'SSS3';const qs=shuffle(QB.filter(q=>q.y===yr)).slice(0,5);const opp=qs.map(()=>chance(.55));
+  const yr=S.player.year||'SSS3';const qs=pickQuestions(QB.filter(q=>q.y===yr),5);const opp=qs.map(()=>chance(.55));
   runQuestions({title:`Rivalry quiz · ${S.player.school} vs ${CAST.rival}`,qs,time:15,versus:(ok,i)=>`${CAST.rival} ${opp[i]?'answered correctly':'missed it'}.`,onDone:res=>{
     const team=res.filter(x=>x).length+Math.round(Math.random());const them=opp.filter(x=>x).length+Math.round(Math.random());const win=team>them;
     if(win){schoolPts(10,'Rivalry quiz win');money(200,'Rivalry quiz');if(S.player.role==='teacher'&&S.flags.coach)taskTick('t_coach')}else{S.points[CAST.rival]+=10;renderTaskbar()}

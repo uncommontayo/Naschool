@@ -1,4 +1,30 @@
 /* =================== CLASS + QUESTIONS =================== */
+
+/* Adaptive difficulty. Each question has a level (l) from 1 to 5.
+   JSS3 plays levels 2-3 and SSS3 plays levels 4-5. After every 5 answers:
+   4 or 5 correct moves the player up a level, 0 or 1 correct moves them down,
+   always inside their band. */
+const LEVEL_BAND={JSS3:[2,3],SSS3:[4,5]};
+const ADAPT_EVERY=5;
+function diffState(){
+  return S.diff||(S.diff={level:LEVEL_BAND[S.player.year][0],recent:[]});
+}
+function recordAnswer(ok){
+  if(S.player.role!=='student')return;
+  const d=diffState(),[low,high]=LEVEL_BAND[S.player.year];
+  d.recent.push(ok);
+  if(d.recent.length<ADAPT_EVERY)return;
+  const right=d.recent.filter(Boolean).length;
+  if(right>=4)d.level=Math.min(high,d.level+1);
+  else if(right<=1)d.level=Math.max(low,d.level-1);
+  d.recent=[];
+}
+/* Take n questions from pool, closest to the player's level first. */
+function pickQuestions(pool,n){
+  if(S.player.role!=='student')return shuffle(pool).slice(0,n);
+  const level=diffState().level;
+  return shuffle(pool).sort((a,b)=>Math.abs(a.l-level)-Math.abs(b.l-level)).slice(0,n);
+}
 function currentSubject(){const p=periodIdx(S.t);return p<0?'':SUBJ[subjectFor(S.player.year,S.t,p)]}
 function lessonKey(){return dayOf(S.t)+'-'+periodIdx(S.t)}
 function canAttend(){const P=S.player;return P.role==='student'&&S.loc==='classroom'&&periodIdx(S.t)>=0&&!S.attended[lessonKey()]}
@@ -13,7 +39,7 @@ function attendClass(sub,isTest){
   const yr=S.player.year;
   let pool=QB.filter(q=>q.y===yr&&(isTest||q.s===sub));
   if(!isTest&&pool.length<3)pool=pool.concat(QB.filter(q=>q.y===yr&&q.s!==sub));
-  pool=shuffle(pool).slice(0,isTest?10:3);
+  pool=pickQuestions(pool,isTest?10:3);
   const popQuiz=!isTest&&S.popDay!==dayOf(S.t)&&chance(.3);
   runQuestions({title:isTest?'Weekly class test':popQuiz?`Pop quiz! · ${SUBJ[sub]}`:`${SUBJ[sub]} · class activity`,qs:pool,time:20,onDone:(res)=>{
     const c=res.filter(x=>x).length;
@@ -38,7 +64,7 @@ function runQuestions({title,qs,time=20,onDone,versus}){
   };
   const answer=j=>{
     if(timer){clearInterval(timer);timer=null}else return;
-    const q=qs[i],ok=j===q.a;res.push(ok);S.answered++;if(ok)S.correct++;if(ok&&q.s==='MTH')progress('maths',1);if(!ok)S.missed=q;
+    const q=qs[i],ok=j===q.a;res.push(ok);recordAnswer(ok);S.answered++;if(ok)S.correct++;if(ok&&q.s==='MTH')progress('maths',1);if(!ok)S.missed=q;
     S.houseGoal+=ok?1:0;
     document.querySelectorAll('.chalkq .opts button').forEach(b=>{const k=+b.dataset.j;b.disabled=true;if(k===q.a)b.classList.add('right');else if(k===j)b.classList.add('wrong')});
     $('#qexp').innerHTML=`<div class="explain"><b>${ok?'Correct.':j<0?"Time's up.":'Not quite.'}</b> ${esc(q.e)}${versus?`<br>${esc(versus(ok,i))}`:''}</div><div class="row end" style="margin-top:8px"><button class="btn gold sm" data-a="${act(next)}">${i+1<qs.length?'Next question':'See result'}</button></div>`;
@@ -47,7 +73,7 @@ function runQuestions({title,qs,time=20,onDone,versus}){
   const next=()=>{i++;if(i<qs.length)show();else{closeModal();onDone&&onDone(res)}};
   show();
 }
-function practiceQ(n){const yr=S.player.year;const q=shuffle(QB.filter(x=>x.y===yr))[0];runQuestions({title:`${n.name} asks you`,qs:[q],time:20,onDone:r=>{if(r[0]){addRel(n.id,3);schoolPts(1,'Correct answer')}}})}
+function practiceQ(n){const yr=S.player.year;const q=pickQuestions(QB.filter(x=>x.y===yr),1)[0];runQuestions({title:`${n.name} asks you`,qs:[q],time:20,onDone:r=>{if(r[0]){addRel(n.id,3);schoolPts(1,'Correct answer')}}})}
 function reviseMissed(){if(!S.missed)return toast('No missed questions to revise yet.');advance(10);const q=S.missed;S.missed=null;runQuestions({title:'Revision retry',qs:[q],time:25,onDone:r=>{if(r[0])toast('Revised and correct. +Academic','good')}})}
 
 /* =================== TEACHER LESSON =================== */
